@@ -1,0 +1,23 @@
+/build/
+/build-ui-check/
+/.tools/
+/dist/
+/.scratch/fan-controller/*.exe
+/.scratch/fan-controller/*.obj
+*.obj
+*.pdb
+*.ilk
+*.db
+*.db-shm
+*.db-wal
+.env
+.env.*
+
+# Local telemetry, installation logs and backups
+/.scratch/**/*.json
+/.scratch/**/*.jsonl
+/.scratch/**/*.csv
+/.scratch/**/*.txt
+/.scratch/**/*.log
+/.scratch/**/backup-*/
+/.scratch/**/installed-backup/

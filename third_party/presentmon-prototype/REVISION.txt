@@ -1,0 +1,4 @@
+https://github.com/GameTechDev/PresentMon
+Tag: v1.10.0
+Commit: 2ce1158783e570539119f577d894252b395cadca
+Subset: PresentData and selected console reference sources; unmodified upstream files.
