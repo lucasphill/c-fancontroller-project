@@ -11,4 +11,4 @@ $compiler=Join-Path $root '.tools/inno/ISCC.exe'
 if (-not (Test-Path $compiler)) {throw 'Compilador Inno Setup portatil nao encontrado em .tools/inno.'}
 & $compiler (Join-Path $root 'installer/FanController.iss')
 if ($LASTEXITCODE -ne 0) {throw 'Compilacao do instalador falhou.'}
-Get-ChildItem (Join-Path $root 'dist/FanController-Setup-*.exe') | Select-Object FullName,Length
+Get-ChildItem (Join-Path $root 'dist/aeri-Setup-*.exe') | Select-Object FullName,Length

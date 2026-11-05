@@ -22,8 +22,8 @@ int main() {
         const auto path=directory/"history.db";
         HistorySchedule schedule;
         require(schedule.due(100),"first sample is immediate");
-        require(!schedule.due(300099),"no sample before five minutes");
-        require(schedule.due(300100),"sample at five minutes");
+        require(!schedule.due(2099),"no sample before two seconds");
+        require(schedule.due(2100),"sample at two seconds");
         require(schedule.due(9000000),"resume after suspension samples once");
         require(!schedule.due(9000001),"no catch-up burst");
         ControlFrame frame{{0,{{50,1200,45},{51,UINT32_MAX,UINT32_MAX}},{{1,65},{6,47}}},
@@ -60,7 +60,29 @@ int main() {
             execute(path,"DROP TRIGGER reject_delete");reopened.append(sample);
             require(reopened.read(0,sample.time).size()==1,"subsequent write recovers");
         }
-        execute(path,"PRAGMA user_version=2");
+        {
+            HistoryStore store(directory/"summaries.db");
+            auto a=converted;a.time=now;a.segment="run/1";a.configuration="Normal rev1";store.append(a);
+            auto b=a;b.time=now+2;b.fans[0].temperature=95;b.fans[0].rpm=4900;store.append(b);
+            auto c=b;c.time=now+4;c.configuration="Normal rev2";c.segment="run/2";store.append(c);
+            store.event({now,"Perfil ativado",a.configuration});
+            store.event({now+4,"Curvas aplicadas",c.configuration});
+            store.prune(now+86460);
+            const auto rows=store.read(now,now+10);
+            require(rows.size()==2,"Minute summaries split at configuration and segment boundaries");
+            require(rows[0].interval==60 && rows[0].count==2,"Raw points compact after 24 hours");
+            require(rows[0].fans[0].temperatureMin==65 && rows[0].fans[0].temperatureMax==95,"Temperature spikes preserved");
+            require(rows[0].fans[0].rpmMin==1200 && rows[0].fans[0].rpmMax==4900,"RPM extrema preserved");
+            require(rows[0].configuration=="Normal rev1" && rows[1].configuration=="Normal rev2","Historical configuration immutable");
+            store.prune(now+86520);
+            require(store.read(now,now+10).size()==2,"Repeated maintenance never duplicates summaries");
+            const auto events=store.events(now,now+10);
+            require(events.size()==2 && events[0].configuration=="Normal rev1","Control events retain snapshots");
+        }
+        const auto legacyPath=directory/"legacy.db";
+        execute(legacyPath,"CREATE TABLE samples(id INTEGER PRIMARY KEY,time INTEGER NOT NULL,cpu_temperature INTEGER,cpu_boost INTEGER,cpu_rpm INTEGER,gpu_temperature INTEGER,gpu_boost INTEGER,gpu_rpm INTEGER,gpu_source INTEGER NOT NULL); INSERT INTO samples VALUES(1,20000000,61,30,2200,55,30,2000,0); PRAGMA user_version=1");
+        {HistoryStore migrated(legacyPath);const auto rows=migrated.read(now,now);require(rows.size()==1 && rows[0].interval==300 && rows[0].configuration.empty(),"Legacy measurements preserved with unknown configuration and original cadence");}
+        execute(path,"PRAGMA user_version=3");
         fails([&] {HistoryStore future(path);},"future schema must not be overwritten");
         fails([&] {HistoryStore inaccessible(directory/"missing"/"history.db");},"open failure surfaced");
         std::filesystem::remove_all(directory);

@@ -1,19 +1,19 @@
-#define AppVersion "0.6.0"
+#define AppVersion "0.7.0"
 [Setup]
 AppId={{7C301214-1666-4DC6-A287-8B378329C68F}
-AppName=FanController
+AppName=aeri
 AppVersion={#AppVersion}
 AppPublisher=Lucas
 DefaultDirName={autopf}\FanController
 DisableDirPage=yes
-DefaultGroupName=FanController
+DefaultGroupName=aeri
 DisableProgramGroupPage=yes
 PrivilegesRequired=admin
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 MinVersion=10.0
 OutputDir=..\dist
-OutputBaseFilename=FanController-Setup-{#AppVersion}-x64
+OutputBaseFilename=aeri-Setup-{#AppVersion}-x64
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
@@ -27,16 +27,18 @@ SetupLogging=yes
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 
 [Files]
-Source: "..\build\package\FanController.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\build\package\aeri.exe"; DestDir: "{app}"; DestName: "FanController.exe"; Flags: ignoreversion
 Source: "..\build\package\PresentMon-LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\build\package\PresentMon-THIRD-PARTY.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "manage-startup.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\build\package\fanctl-curves.txt"; DestDir: "{app}"; Flags: onlyifdoesntexist uninsneveruninstall
 Source: "..\build\package\fanctl-startup.txt"; DestDir: "{app}"; Flags: onlyifdoesntexist uninsneveruninstall
 
+Source: "..\build\package\WebView2-LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
+
 [Icons]
-Name: "{group}\FanController"; Filename: "{app}\FanController.exe"; WorkingDir: "{app}"
-Name: "{group}\Desinstalar FanController"; Filename: "{uninstallexe}"
+Name: "{group}\aeri"; Filename: "{app}\FanController.exe"; WorkingDir: "{app}"
+Name: "{group}\Desinstalar aeri"; Filename: "{uninstallexe}"
 
 [Code]
 function ManageStartup(Mode: String): Boolean;

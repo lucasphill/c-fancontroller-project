@@ -20,6 +20,12 @@ void tests() {
     const auto low=cool.next(frame(40,30),AutomaticPolicy::Clock::time_point{});
     expect(low[0].boost==20 && low[1].boost==20,"Normal did not request 20 at low temperatures");
     expect(encodeCurves(decodeCurves(encodeCurves(settings)))==encodeCurves(settings),"Settings did not round trip");
+    std::ostringstream legacy;legacy<<"FANCTL_CURVES 1\n";
+    for(const auto& p:settings)for(const auto& c:p)for(const auto& point:c)legacy<<point.temperature<<' '<<point.boost<<'\n';
+    expect(encodeCurves(decodeCurves(legacy.str()))==encodeCurves(settings),"Legacy profiles must migrate without changing points");
+    auto variable=settings;variable[0][0].insert(variable[0][0].begin()+1,{55,30});
+    expect(decodeCurves(encodeCurves(variable))[0][0].size()==6,"Variable point count must persist");
+    variable[0][0].resize(1);fails([&]{validateCurves(variable);});
     fails([] {decodeCurves("FANCTL_CURVES 2");});
     fails([&] {decodeCurves(encodeCurves(settings)+"unexpected");});
     fails([&] {decodeCurves(encodeCurves(settings).substr(0,30));});

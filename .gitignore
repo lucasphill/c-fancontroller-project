@@ -1,5 +1,6 @@
 /build/
 /build-ui-check/
+/build-aeri-preview/
 /.tools/
 /dist/
 /.scratch/fan-controller/*.exe

@@ -1,0 +1,106 @@
+
+html,body{margin:0;min-height:100%;background:transparent;color-scheme:dark}
+#aeri{font:14px 'Segoe UI',sans-serif;color:#eaf3f3;--aeri-accent:#65d7c7;--aeri-gpu:#b6a5ee}
+#aeri *{box-sizing:border-box}
+#aeri button,#aeri select,#aeri input{font:inherit}
+#aeri button,#aeri select{color:inherit;background:#233438;border:1px solid #415357;border-radius:9px;padding:9px 13px;cursor:pointer}
+#aeri button:hover{background:#34494d}
+#aeri button:focus-visible,#aeri input:focus-visible{outline:2px solid var(--aeri-accent);outline-offset:3px}
+#aeri button[aria-pressed=true],#aeri .primary{background:var(--aeri-accent);color:#102b2a;border-color:transparent}
+#aeri .desktop{background:radial-gradient(ellipse at 15% 85%,#397b78,transparent 55%),radial-gradient(ellipse at 90% 0%,#515673,transparent 60%),#162c35;border-radius:22px;padding:20px;min-height:780px}
+#aeri .window{background:linear-gradient(130deg,#182c31dd,#152129e8);backdrop-filter:blur(24px);border:1px solid #b3ddd32b;border-radius:16px;box-shadow:0 24px 60px #06121760;overflow:hidden;min-height:730px}
+#aeri .titlebar{padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #b6d9df16;color:#9eb4ba;font-size:12px;gap:16px}
+#aeri .brand{display:inline-flex;align-items:center;gap:12px;color:#ecf8f6;font-size:30px;letter-spacing:-1.4px;font-weight:500}
+#aeri .mark{position:relative;width:31px;height:30px;display:inline-block;transform:rotate(-22deg);flex-shrink:0}
+#aeri .mark:before,#aeri .mark:after{content:'';position:absolute;width:27px;height:12px;border-top:3px solid var(--aeri-accent);border-right:3px solid var(--aeri-accent);border-radius:0 18px 0 0;left:1px;top:4px}
+#aeri .mark:after{top:15px;width:21px;left:3px}
+#aeri .layout{display:grid;grid-template-columns:176px minmax(0,1fr);min-height:680px}
+#aeri aside{padding:28px 14px 20px;display:flex;flex-direction:column;border-right:1px solid #aacdd416;background:#1021265c;gap:7px}
+#aeri aside .brand{margin:0 10px 30px}
+#aeri nav{display:flex;flex-direction:column;gap:7px}
+#aeri nav button{text-align:left;background:transparent;border:0;color:#a4b8be;padding:12px}
+#aeri nav button.active{background:#67d7c716;color:#85e6d8}
+#aeri .sidefoot{margin-top:auto;padding:28px 10px 0;color:#8ba6ae;font-size:12px}
+#aeri main{padding:27px;min-width:0}
+#aeri .heading{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:25px;flex-wrap:wrap}
+#aeri h1{font-size:25px;font-weight:500;letter-spacing:-.7px;margin:0 0 6px}
+#aeri h2{font-size:16px;font-weight:500;margin:0}
+#aeri p{margin:0}
+#aeri .muted{color:#9bb0b8;font-size:12px}
+#aeri .mode{border:1px solid #65d7c739;background:#65d7c70d;padding:9px 13px;border-radius:25px;color:#9ce7db;font-size:12px}
+#aeri .pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+#aeri .panel{background:#17282ee8;border:1px solid #a9cbd51b;border-radius:15px;padding:20px;min-width:0}
+#aeri .paneltop{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:24px}
+#aeri .chip{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:#b7cbd0}
+#aeri .dot{width:7px;height:7px;border-radius:50%;background:var(--aeri-accent);display:inline-block}
+#aeri .gpu .dot{background:var(--aeri-gpu)}
+#aeri .numbers{display:flex;gap:22px;justify-content:space-between;align-items:baseline;font-variant-numeric:tabular-nums}
+#aeri .temp{font-size:49px;letter-spacing:-2px;font-weight:400}
+#aeri .rpm{font-size:27px;letter-spacing:-1px}
+#aeri .unit{font-size:14px;color:#9fb8bf;letter-spacing:0;margin-left:5px}
+#aeri .metriclabel{font-size:12px;color:#9bb0b8;margin-top:5px}
+#aeri .mini{width:100%;height:100px;display:block;margin:22px 0 8px}
+#aeri .chartlink{padding:0;border:0;background:none;color:#a1c4c8;font-size:12px}
+#aeri .strip{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-top:18px;padding:18px 20px;background:#11262a8c;border:1px solid #a9cbd51b;border-radius:13px}
+#aeri .strip strong{font-weight:500;font-size:13px;display:block;margin-bottom:6px}
+#aeri .legend{display:flex;gap:18px;align-items:center;flex-wrap:wrap;font-size:12px;color:#adbec6}
+#aeri .legend span{display:flex;align-items:center;gap:7px}
+#aeri .legend .gpudot{background:var(--aeri-gpu)}
+#aeri .toolbar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+#aeri .toolbar button{font-size:12px;padding:7px 10px}
+#aeri .plot{width:100%;height:auto;display:block;touch-action:none}
+#aeri .plot text{font:12px 'Segoe UI',sans-serif;fill:#96b0ba}
+#aeri .chartpanel{padding:18px 15px 12px;margin-bottom:12px}
+#aeri .chartpanel .paneltop{margin:0 5px 12px}
+#aeri .detail{padding:12px 15px;background:#10252b;border-radius:9px;font-size:12px;color:#c0d1d6;min-height:43px;margin-top:12px}
+#aeri .eventrow{display:grid;grid-template-columns:60px 1fr;gap:15px;padding:11px 0;border-bottom:1px solid #acc8ce12;font-size:12px}
+#aeri .eventrow time{color:#8fa7b1;font-variant-numeric:tabular-nums}
+#aeri .smalltitle{margin:22px 0 5px;color:#c5d7dc;font-size:13px}
+#aeri .editbar{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+#aeri .edit-actions{display:flex;gap:8px;flex-wrap:wrap}
+#aeri .editstatus{font-size:12px;color:#9bb8be;min-height:20px;margin-top:12px}
+#aeri .point-editor{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:12px;font-size:12px}
+#aeri .point-editor input{width:65px;padding:7px;background:#10252b;border:1px solid #40565e;border-radius:7px;color:#eaf3f3}
+#aeri .point-editor button{padding:6px 9px;font-size:12px}
+#aeri .settingsrow{padding:17px 0;display:flex;justify-content:space-between;align-items:center;gap:14px;border-bottom:1px solid #acc8ce18}
+#aeri .settingsrow label{display:flex;gap:10px;align-items:center}
+#aeri .proposal{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:#a8bdc6}
+#aeri .lower{margin-top:22px;display:flex;justify-content:space-between;gap:16px;color:#86a4ad;font-size:11px;flex-wrap:wrap}
+#aeri .studio .pair{grid-template-columns:1fr}
+#aeri .studio .sensor{display:grid;grid-template-columns:140px 1fr 1fr;align-items:center;gap:15px}
+#aeri .studio .sensor .paneltop{margin:0;align-items:start;flex-direction:column}
+#aeri .studio .sensor .mini{margin:0;height:85px}
+#aeri .studio .sensor .chartlink{grid-column:3}
+#aeri .studio .temp{font-size:43px}
+#aeri .studio .numbers{justify-content:start;gap:25px}
+#aeri .focus .layout{grid-template-columns:1fr}
+#aeri .focus aside{flex-direction:row;align-items:center;border-right:0;border-bottom:1px solid #aacdd416;padding:16px 25px;gap:25px;flex-wrap:wrap}
+#aeri .focus aside .brand{margin:0}
+#aeri .focus nav{flex-direction:row;flex-wrap:wrap}
+#aeri .focus .sidefoot{display:none}
+#aeri .focus main{padding:30px 40px}
+#aeri .focus .temp{font-size:62px}
+#aeri .focus .mini{height:130px}
+#aeri .opaque .window{background:#17262e;backdrop-filter:none}
+#aeri .desktop{min-height:100vh;background:transparent}
+#aeri .window{min-height:calc(100vh - 40px)}
+#aeri .layout{min-height:calc(100vh - 86px)}
+#aeri .reading-tooltip{position:fixed;z-index:20;pointer-events:none;background:#102126;color:#eaf3f3;border:1px solid #55777b;border-radius:12px;box-shadow:0 12px 35px #0005;padding:15px;width:300px;max-width:calc(100vw - 20px);font-size:12px;line-height:1.6}
+#aeri .reading-tooltip strong{display:block;font-weight:500;margin-bottom:7px}
+#aeri .reading-tooltip dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:3px 13px;font-variant-numeric:tabular-nums}
+#aeri .reading-tooltip dt{color:#a6bbc2}
+#aeri .reading-tooltip dd{margin:0;text-align:right}
+#aeri .reading-tooltip footer{margin-top:9px;padding-top:8px;border-top:1px solid #a3cad325;color:#b3c9ce}
+#aeri .hover-marks{pointer-events:none}
+#aeri .plot{user-select:none}
+#aeri .curve circle{cursor:grab}
+#aeri button:disabled{opacity:.45;cursor:default}
+#aeri #error{padding:14px 25px;background:#512c32;color:#ffe5e7;border-top:1px solid #88505c;white-space:pre-wrap}
+#aeri dialog{color:#eaf3f3;background:#17282e;border:1px solid #55777b;border-radius:16px;padding:25px;max-width:90vw}
+#aeri dialog::backdrop{background:#06121799;backdrop-filter:blur(5px)}
+#aeri dialog p{margin:15px 0 25px}
+#aeri dialog pre{font:13px 'Segoe UI',sans-serif;white-space:pre-wrap;max-height:60vh;overflow:auto;margin:20px 0}
+#aeri .range-input{accent-color:var(--aeri-accent);width:180px;max-width:100%}
+#aeri .no-data{fill:#9bb0b8;font:12px 'Segoe UI',sans-serif}
+#aeri .plot text{font-size:12px}
+@media(max-width:760px){#aeri .desktop{padding:8px}#aeri .layout{grid-template-columns:1fr}#aeri aside{padding:15px;border-right:0;border-bottom:1px solid #aacdd416;display:block}#aeri aside .brand{margin:0 0 12px}#aeri nav{flex-direction:row;flex-wrap:wrap;gap:0}#aeri nav button{font-size:12px;padding:9px}#aeri .sidefoot{display:none}#aeri main,#aeri .focus main{padding:18px}#aeri .pair{grid-template-columns:1fr}#aeri .studio .sensor{display:block}#aeri .studio .sensor .paneltop{flex-direction:row;margin-bottom:20px}#aeri .studio .sensor .mini{margin:20px 0 10px}#aeri .titlebar{padding:12px}#aeri .focus aside{padding:15px;gap:10px}#aeri .numbers{justify-content:start;gap:35px}}

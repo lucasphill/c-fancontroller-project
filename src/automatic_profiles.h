@@ -8,19 +8,24 @@
 
 namespace fanctl {
 struct CurvePoint { int temperature; int boost; };
-using Curve=std::array<CurvePoint,5>;
+using Curve=std::vector<CurvePoint>;
 using ProfileCurves=std::array<Curve,2>;
 using CurveSettings=std::array<ProfileCurves,2>;
+inline bool sameCurves(const ProfileCurves& a,const ProfileCurves& b) {
+    for(std::size_t f=0;f<2;++f)if(a[f].size()!=b[f].size() || !std::equal(a[f].begin(),a[f].end(),b[f].begin(),[](const CurvePoint& x,const CurvePoint& y){return x.temperature==y.temperature&&x.boost==y.boost;}))return false;
+    return true;
+}
 inline CurveSettings defaultCurves() {
     CurveSettings settings{};
     const int boosts[]{30,45,65,85,100};
     for (int profile=0;profile<2;++profile) for (int fan=0;fan<2;++fan)
         for (int point=0;point<5;++point)
-            settings[profile][fan][point]={50-fan*10-profile*10+point*10,(profile==0 && point==0) ? 20 : boosts[point]};
+            settings[profile][fan].push_back({50-fan*10-profile*10+point*10,(profile==0 && point==0) ? 20 : boosts[point]});
     return settings;
 }
 inline void validateCurves(const CurveSettings& settings) {
     for (std::size_t profile=0;profile<settings.size();++profile) for (const auto& curve : settings[profile]) {
+        if (curve.size()<2 || curve.size()>16) throw std::runtime_error("Use entre 2 e 16 pontos por curva.");
         for (std::size_t i=0;i<curve.size();++i) {
             const auto& point=curve[i];
             if (point.temperature<1 || point.temperature>125 || point.boost<(profile==0 ? 20 : 30) || point.boost>100 ||
@@ -30,18 +35,25 @@ inline void validateCurves(const CurveSettings& settings) {
     }
 }
 inline std::string encodeCurves(const CurveSettings& settings) {
-    validateCurves(settings);std::ostringstream out;out<<"FANCTL_CURVES 1\n";
-    for (const auto& profile : settings) for (const auto& curve : profile)
+    validateCurves(settings);std::ostringstream out;out<<"FANCTL_CURVES 2\n";
+    for (const auto& profile : settings) for (const auto& curve : profile) {
+        out<<curve.size()<<'\n';
         for (const auto& point : curve) out<<point.temperature<<' '<<point.boost<<'\n';
+    }
     return out.str();
 }
 inline CurveSettings decodeCurves(const std::string& text) {
     std::istringstream in(text);std::string signature;int version=0;
-    if (!(in>>signature>>version) || signature!="FANCTL_CURVES" || version!=1)
+    if (!(in>>signature>>version) || signature!="FANCTL_CURVES" || (version!=1 && version!=2))
         throw std::runtime_error("Arquivo de curvas invalido.");
     CurveSettings settings{};
-    for (auto& profile : settings) for (auto& curve : profile) for (auto& point : curve)
-        if (!(in>>point.temperature>>point.boost)) throw std::runtime_error("Arquivo de curvas incompleto.");
+    for (auto& profile : settings) for (auto& curve : profile) {
+        int count=5;
+        if (version==2 && (!(in>>count) || count<2 || count>16)) throw std::runtime_error("Quantidade de pontos invalida.");
+        curve.resize(static_cast<std::size_t>(count));
+        for (auto& point : curve)
+            if (!(in>>point.temperature>>point.boost)) throw std::runtime_error("Arquivo de curvas incompleto.");
+    }
     std::string extra;if (in>>extra) throw std::runtime_error("Dados extras no arquivo de curvas.");
     validateCurves(settings);return settings;
 }

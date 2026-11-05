@@ -1,5 +1,7 @@
 # Histórico térmico
 
+> A interface atual da aeri e as mudanças de histórico/curvas estão documentadas em [aeri](aeri.md). As descrições de abas e intervalos abaixo registram a versão anterior.
+
 A aba **Histórico** contém um gráfico para **CPU provável / fan 50** e outro para
 **GPU / fan 51**. Cada gráfico tem três séries: temperatura em vermelho (°C), boost
 lido em roxo e rotação em azul (RPM). As escalas são independentes, identificadas

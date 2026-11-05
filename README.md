@@ -1,8 +1,8 @@
-# FanController
+# aeri
 
 [Baixar a build mais recente para Windows x64](https://github.com/lucasphill/c-fancontroller-project/releases/latest).
 Cada push em `main` executa os testes sem hardware, compila a GUI e a CLI e
-publica uma nova release com `FanController.exe`, `fanctl.exe`, ZIP com licenças
+publica uma nova release com `aeri.exe`, `fanctl.exe`, ZIP com licenças
 e checksums SHA-256. Pull requests executam a mesma validação sem publicar.
 Também é possível executar manualmente o workflow **Windows build and release**.
 As releases automáticas são portáteis: não incluem instalador nem configuram
@@ -13,47 +13,39 @@ com foco em melhorar a refrigeração por boost individual das fans.
 
 ## Interface gráfica
 
-Novo painel escuro e redimensionável com monitoramento ao vivo, gráficos recentes e
-faixa OSD própria, sem exigir RTSS ou MSI Afterburner. Selecione as métricas na aba
-**OSD**. [Monitoramento e exibição na tela](docs/monitoring-osd.md).
+A **aeri** usa o layout Estúdio: navegação lateral, temperaturas e RPM em destaque,
+gráficos com detalhes da medição sob o cursor e fundo com vidro opcional.
+[Interface, requisitos e validação](docs/aeri.md).
 
-Instalador: `dist\FanController-Setup-0.6.0-x64.exe`. Instala em Arquivos de
-Programas e inicia automaticamente na bandeja após login, retomando o último
-modo aplicado. Primeira instalação: Normal. [Instalação e início automático](docs/installation.md).
+- **Visão geral:** acompanhamento de CPU e GPU; FPS fica somente no OSD durante jogos.
+- **Histórico:** temperatura e RPM em gráficos alinhados, filtro por componente,
+  zoom e eventos de ativação/alteração de perfis com a configuração preservada.
+  Coleta nominal a cada 2 segundos, detalhe por 24 horas e resumos por minuto
+  até 90 dias, conservando mínimos e máximos.
+- **Perfis e curvas:** editor gráfico com 2 a 16 pontos, aplicação explícita,
+  ativação de Normal/Performance e acesso ao controle manual/restauração.
+- **Configurações:** transparência e seleção das métricas da faixa OSD.
 
-Abra `build\FanController.exe` com duplo clique e confirme a solicitação de
-administrador do Windows. Nenhum terminal precisa ficar aberto.
+A interface requer o runtime **Microsoft Edge WebView2 Evergreen**. Seus recursos
+são locais e embutidos no executável. A aquisição e o controle continuam no núcleo
+C++, separados da apresentação. [Decisão técnica](docs/adr/0004-webview2-para-interface-aeri.md).
 
-- Ao abrir, apenas monitora: não aplica os valores dos controles automaticamente.
-- Selecione **Manual**, **Normal** ou **Performance** e clique em **Aplicar**.
-- Em Manual, ajuste os boosts das fans 50 e 51. Nos perfis automáticos, cada fan
-  segue sua curva de temperatura, com boost mínimo 30.
-- A aba **Curvas** permite editar os pontos e **Salvar e aplicar** os ajustes.
-- A aba **Histórico** mostra gráficos separados de CPU e GPU, com temperatura,
-  boost lido e RPM. Registra ao iniciar e a cada cinco minutos, inclusive na
-  bandeja, e mantém os últimos 90 dias em SQLite local. [Histórico térmico](docs/thermal-history.md).
-- **Máximo (100)** aplica boost 100 nas duas fans.
-- **Restaurar** devolve o perfil e os boosts anteriores e encerra o controle manual.
-- Fechar no **X** ou minimizar mantém o programa na bandeja, perto do relógio.
-- Clique no ícone para reabrir; o menu do botão direito também permite restaurar e sair.
-- **Sair** tenta restaurar os ajustes antes de encerrar. Se não confirmar a
-  restauração, mantém a janela aberta, preserva o registro e oferece nova tentativa.
+Abra `build\aeri.exe` após compilar e confirme o pedido de administrador.
+A abertura normal apenas monitora. Fechar/minimizar mantém o programa na bandeja;
+**Encerrar** tenta restaurar o estado anterior antes de sair. Uma restauração não
+confirmada mantém o registro disponível para nova tentativa.
 
-A opção NVML começa desmarcada. Para mudar a fonte GPU durante controle ativo,
-restaure os ajustes primeiro. Normal e Performance ativam NVML durante o controle.
-O novo monitoramento consulta temperatura e uso NVIDIA separadamente dessa opção,
-sem mudar a fonte de controle; essas consultas também podem manter a GPU acordada.
-As curvas e o último modo aplicado ficam salvos junto ao executável. Na versão
-instalada, a tarefa de login retoma o modo salvo na bandeja, sem UAC a cada login.
-O segundo plano funciona durante a sessão do usuário conectado.
-Não é um serviço do Windows e não mantém controle antes do login ou após encerrar a sessão.
+O rebranding preserva o banco em `%LOCALAPPDATA%\FanController\history.db`, os
+arquivos de configuração, o alias `FanController.exe` e a tarefa de início
+existente. O instalador local passa a se chamar `aeri-Setup-0.7.0-x64.exe`.
+As releases automáticas continuam portáteis.
 
-Se a janela não estiver visível, procure o ícone do FanController na seta de ícones
-ocultos da bandeja. Abrir novamente o executável também traz a janela existente.
-CLI e janela compartilham o controle e recusam duas sessões manuais simultâneas.
+Para avaliar o visual sem hardware:
 
-Detalhes e validação: [interface gráfica](docs/gui.md).
-Curvas, proteções e edição: [perfis automáticos](docs/automatic-profiles.md).
+```powershell
+.\tools\build-gui.ps1 -Preview -OutputDirectory build/aeri-preview
+.\build\aeri-preview\aeri.exe
+```
 
 Leitura e ajuste de boost por COM/WMI diretamente, sem PowerShell
 em tempo de execução, driver adicional, serviço ou dependência do aplicativo AWCC.

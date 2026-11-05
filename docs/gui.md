@@ -1,5 +1,7 @@
 # Interface gráfica e bandeja
 
+> A interface atual da aeri e as mudanças de histórico/curvas estão documentadas em [aeri](aeri.md). As descrições de abas e intervalos abaixo registram a versão anterior.
+
 Primeira versão implementada em 24/10/2026, conforme as decisões locais em
 `.scratch/fan-controller/gui-plan.md`.
 

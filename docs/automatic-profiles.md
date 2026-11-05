@@ -1,5 +1,7 @@
 # Perfis automáticos
 
+> A interface atual da aeri e as mudanças de histórico/curvas estão documentadas em [aeri](aeri.md). As descrições de abas e intervalos abaixo registram a versão anterior.
+
 Implementados em 25/10/2026 na interface gráfica. O CLI mantém os comandos atuais.
 
 ## Uso
